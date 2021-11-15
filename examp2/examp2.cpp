@@ -5,7 +5,7 @@ using namespace sf;
 
 Image image;
 Texture texture;
-Sprite cadr1;
+Sprite sprite;
 
 
  
@@ -24,7 +24,7 @@ int main()
 	RenderWindow window(VideoMode(WIN_WIDTH,WIN_HEIGHT), "SFML Works!");
 
       Clock clock; //создаем переменную времени
-      //Vector2f position = circle.getPosition();
+     // Vector2f position = circle.getPosition();
 	  
       window.setVerticalSyncEnabled(true);// Включаем вертикальную синхронизацию (для плавной анимации)
       Vector2f speed = {50.f,15.f};//скорость в векторном виде с координатами x,y
@@ -53,16 +53,16 @@ int main()
 		window.clear(Color::White);
 
            //  1 Способ загрузки текстуры в спрайт
-		   image.loadFromFile("Imgur.png");		   
+		  if( !image.loadFromFile("Imgur.png"))		   
            texture.loadFromImage(image);  
-		   Sprite cadr1(texture);
+		   Sprite sprite(texture);
 
 
-        // cadr1.setTextureRect(IntRect(0,0,69,96));
+        // sprite.setTextureRect(IntRect(0,0,69,96));
 
 
 
-           window.draw(cadr1); // Отрисовка спрайтa 
+           window.draw(sprite); // Отрисовка спрайтa 
 
       /*   //  2 Способ загрузки текстуры в спрайт
  

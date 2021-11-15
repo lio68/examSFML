@@ -4,7 +4,7 @@ using namespace sf;
 int main() {
     RenderWindow window(VideoMode(500, 500), "lesson-3-4");
     Texture texture;
-    if (!texture.loadFromFile("./pic/ciferblat.png"))
+    if (!texture.loadFromFile("ciferblat.png"))
         return -1;
     Sprite ciferblat;
     ciferblat.setPosition(0,0);
