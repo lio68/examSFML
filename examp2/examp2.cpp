@@ -23,22 +23,20 @@ int main()
 	// Объект, который, собственно, является главным окном приложения
 	RenderWindow window(VideoMode(WIN_WIDTH,WIN_HEIGHT), "SFML Works!");
 
-      Clock clock; //создаем переменную времени
+      //Clock clock; //создаем переменную времени
      // Vector2f position = circle.getPosition();
+	
+	// Скорость определим в переменой
+    float speed = 100.f;
+    // А в этой переменной мы определяем направление
+    float way = 1.f;
+
 	  
       window.setVerticalSyncEnabled(true);// Включаем вертикальную синхронизацию (для плавной анимации)
-      Vector2f speed = {50.f,15.f};//скорость в векторном виде с координатами x,y
-
-      constexpr float BALL_SIZE = 30.f;
-
+     // Vector2f speed = {50.f,15.f};//скорость в векторном виде с координатами x,y
  
 	// Главный цикл приложения: выполняется, пока открыто окно
 	while (window.isOpen())	{
-
-           // float time = clock.getElapsedTime().asMicroseconds(); //дать прошедшее время в микросекундах
-           // clock.restart(); //перезагружает времяi
-		// float speed = 0.00003;//скорость в числовом виде для  asMicroseconds(); 
-	  	 //float time = clock.getElapsedTime().asSeconds();//asMicroseconds();	
 
 		// Обрабатываем события в цикле
 		Event event;
@@ -53,15 +51,35 @@ int main()
 		window.clear(Color::White);
 
            //  1 Способ загрузки текстуры в спрайт
-		  if( !image.loadFromFile("Imgur.png"))		   
-           texture.loadFromImage(image);  
+		  if( !image.loadFromFile("Imgur.png"))
+			 return -1;
+
+          if(! texture.loadFromImage(image))
+             return -2; 
 		   Sprite sprite(texture);
 
+          //sprite.setTextureRect(IntRect(0,0,69,96));
 
-        // sprite.setTextureRect(IntRect(0,0,69,96));
+          Clock clock; 
 
+     // Запускаем таймер; отсчеты выполняем в секундах
+        float delta = clock.restart().asSeconds();
 
+         sprite.move( speed * delta * way,0);
 
+    //std::cout << delta << "\n";//смотрим как живет время
+
+        // Смотрим, дошел ли до края?
+        // если да, меняем направление
+       // if (sprite.getPosition().x > 650) way = -1;
+       // if (sprite.getPosition().x < 0) way = 1;
+        // Перемещаем Тукса
+		
+         sprite.setTextureRect(IntRect(0,0,69,96));
+
+       // sprite.move( speed * delta * way,0);
+ 
+           window.clear();
            window.draw(sprite); // Отрисовка спрайтa 
 
       /*   //  2 Способ загрузки текстуры в спрайт
