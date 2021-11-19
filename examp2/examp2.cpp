@@ -62,8 +62,12 @@ int main()
 
           Clock clock; 
 
+         sprite.setTextureRect(IntRect(0,0,69,96));
+
      // Запускаем таймер; отсчеты выполняем в секундах
         float delta = clock.restart().asSeconds();
+
+        // sprite.setTextureRect(IntRect(0,0,69,96));
 
          sprite.move( speed * delta * way,0);
 
@@ -75,7 +79,7 @@ int main()
        // if (sprite.getPosition().x < 0) way = 1;
         // Перемещаем Тукса
 		
-         sprite.setTextureRect(IntRect(0,0,69,96));
+        // sprite.setTextureRect(IntRect(0,0,69,96));
 
        // sprite.move( speed * delta * way,0);
  
