@@ -64,7 +64,6 @@ int main() {
 
 
             sprite.setTexture(texture);
-			//sprite.setPosition(380,0);
             way=-1;
             sprite.move(speed * delta * way,0);
 			cout <<"x4 = "<< sprite.getPosition().x ;

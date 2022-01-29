@@ -1,40 +1,47 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
- 
-using namespace sf;
+#include <windows.h> 
+#include <cmath>
 
-Image image;
-Texture texture;
-Sprite sprite;
-
-
+    using namespace sf;
+    using namespace std;
  
 int main()
-{ 
-
-// Устанавливаем 8-й уровень сглаживания
-	ContextSettings settings;
-	settings.antialiasingLevel = 8;
-
+{
         constexpr unsigned WIN_WIDTH = 900;
         constexpr unsigned WIN_HEIGHT = 700;
 
+      // Устанавливаем 8-й уровень сглаживания
+    	ContextSettings settings;
+	    settings.antialiasingLevel = 8;
+
+          Image image;
+          Texture texture;
 
 	// Объект, который, собственно, является главным окном приложения
 	RenderWindow window(VideoMode(WIN_WIDTH,WIN_HEIGHT), "SFML Works!");
 
-      //Clock clock; //создаем переменную времени
-     // Vector2f position = circle.getPosition();
-	
-	// Скорость определим в переменой
-    float speed = 100.f;
-    // А в этой переменной мы определяем направление
-    float way = 1.f;
+    window.setFramerateLimit(50); // запустите это один раз, после создания окна  чтобы  приложение запускалось с установленной вами частотой кадров,отличной от частоты монитора 60.
 
 	  
-      window.setVerticalSyncEnabled(true);// Включаем вертикальную синхронизацию (для плавной анимации)
-     // Vector2f speed = {50.f,15.f};//скорость в векторном виде с координатами x,y
- 
+       window.setVerticalSyncEnabled(true);// Включаем вертикальную синхронизацию (для плавной анимации)          
+
+           //   Способ загрузки текстуры в спрайт
+
+		  if( !image.loadFromFile("Imgur.png"))
+			 return -1;
+
+          if(! texture.loadFromImage(image))
+             return -2; 
+		   Sprite sprite(texture);
+
+        Clock clock;//вызываем функцию времени
+	 //===//===//===//===//===//===//===//===//===//===//===//===//===//===//===//
+// Скорость определим в переменой
+    float speed = 400.f;
+    // А в этой переменной мы определяем направление
+    float way = 1.f;
+	 
 	// Главный цикл приложения: выполняется, пока открыто окно
 	while (window.isOpen())	{
 
@@ -47,124 +54,36 @@ int main()
 				// тогда закрываем его
 				window.close();
 		}
-		// Установка цвета фона - белый
-		window.clear(Color::White);
-
-           //  1 Способ загрузки текстуры в спрайт
-		  if( !image.loadFromFile("Imgur.png"))
-			 return -1;
-
-          if(! texture.loadFromImage(image))
-             return -2; 
-		   Sprite sprite(texture);
-
-          //sprite.setTextureRect(IntRect(0,0,69,96));
-
-          Clock clock; 
-
-         sprite.setTextureRect(IntRect(0,0,69,96));
 
      // Запускаем таймер; отсчеты выполняем в секундах
-        float delta = clock.restart().asSeconds();
 
-        // sprite.setTextureRect(IntRect(0,0,69,96));
+		  // float delta = clock.restart().asSeconds();
 
-         sprite.move( speed * delta * way,0);
+		   for (int r=0;r<=4;r++)// перебор номера картинок анимации
+                {
 
-    //std::cout << delta << "\n";//смотрим как живет время
+                  if(r==4)
+                      r=0;            
 
-        // Смотрим, дошел ли до края?
-        // если да, меняем направление
-       // if (sprite.getPosition().x > 650) way = -1;
-       // if (sprite.getPosition().x < 0) way = 1;
-        // Перемещаем Тукса
-		
-        // sprite.setTextureRect(IntRect(0,0,69,96));
+        sprite.setTextureRect(IntRect(64*r,192,64,96));
 
-       // sprite.move( speed * delta * way,0);
- 
-           window.clear();
-           window.draw(sprite); // Отрисовка спрайтa 
+           Sleep(269);
 
-      /*   //  2 Способ загрузки текстуры в спрайт
- 
-		// Создаем переменную текстуры
-		Texture texture;		
- 
-	   // Подгружаем нашу текстуру из файла texture.png
-	    texture.loadFromFile("erl.png", IntRect(0, 200,WINDOW_WIDTH,WINDOW_HEIGHT));
- 
-		// Создаем спрайт и устанавливаем ему нашу текстуру
-		Sprite sprite(texture);
-		
-		window.draw(sprite); // Отрисовка спрайта */
+          float delta = clock.restart().asSeconds();
 
 
-	/*	CircleShape circle(BALL_SIZE);// Устанавливаем круг радиусом 30 
-		circle.setFillColor(Color::Yellow); // закрашиваем наш круг
-        circle.setPosition(15, 15);//начальная позиция с координатами (x,y)
+           window.clear(Color::Green);//очищает экран , делает фон зелёным
 
-        float time = clock.getElapsedTime().asSeconds();//получение времени в секундах
-        // Vector2f speed = {50.f,15.f};//скорость в векторном виде с координатами x,y
+//sprite.move(speed * delta * way,0);//движение спрайта
 
-            Vector2f position = circle.getPosition();//нач.позиция в векторном виде (x,y)
-                  position += speed*time;//изменение позиции
+           window.draw(sprite); // Отрисовка спрайтa
+	
+           window.display();//всё это показывает
 
-            if((position.x + 2*BALL_SIZE >= WIN_WIDTH) && (speed.x>0))
-			{
-                   speed.x = -speed.x;
-               position += speed*time;//изменение позиции
+		}
+		     
+     }
 
-			  }
+  }
+	
 
-           if((position.x < 0) && (speed.x < 0))
-			{
-                   speed.x = -speed.x;
-                 position += speed*time;//изменение позиции
-
-			  }
-
-           if((position.y + 2*BALL_SIZE >= WINDOW_WIDTH) && (speed.y>0))
-			{
-                   speed.y = -speed.y;
-                position += speed*time;//изменение позиции
-
-			  }
-
-           if((position.y < 0) && (speed.y < 0))
-			{
-                   speed.y = -speed.y;
-              position += speed*time;//изменение позиции
-
-			  }
-
-                 
-		           //position += speed*time;//изменение позиции
-
-
-                  //position.y +=v*dtime;// изменение позиции по координате "у" 
-                  circle.setPosition(position);//фиксация позиции с учётом изменений
-
-	//if(time>=1.24389e+07){
-              // clock.restart(); //перезагружает время
-             // circle.setPosition(700, 15); 
-             // circle.move(v*((1.24389e+07)-time), 15);
-		  // }
-
-	/*else {
-		circle.move(v*time, 15); // перемещаем круг для корректного отображения в окне	
-		window.draw(circle); // отрисовка круга.
-	  }
-
-        // std::cout << time << "\n";//смотрим как живет время
-
-
-        //window.clear();
-		window.draw(circle);*/ // отрисовка круга
-
-		window.display(); // Отрисовка окна
-
-	}
- 
-	return 0;
-}
